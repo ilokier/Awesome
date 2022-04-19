@@ -67,7 +67,7 @@ public class BasePage {
         wait.until(ExpectedConditions.alertIsPresent());
     }
 
-    public String getAlertMessage() {
+    public String getValidationMessage() {
         waitForAlert();
         String alertMessage = driver.switchTo().alert().getText();
         log.info("Validation message: " + alertMessage);

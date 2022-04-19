@@ -21,7 +21,7 @@ public class FormTest extends BaseTest {
     public void shouldFillFormWithSucces() {
         homePage.goToForm();
         formPage.fillForm();
-        String alertMessage = formPage.getAlertMessage();
+        String alertMessage = formPage.getValidationMessage();
         formPage.acceptAlert();
         assertThat(alertMessage, equalTo(System.getProperty("expectedMsg")));
     }
