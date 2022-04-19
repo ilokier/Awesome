@@ -1,0 +1,25 @@
+browser:
+  browserName: chrome
+  headlessBrowser: false
+  webElementTimeOut: 15
+
+environment:
+  test:
+    envName: test
+    appUrl: https://demo.aspnetawesome.com/
+    name: Janek Malinowski
+    day: 30
+    month: June
+    year: 2022
+    expectedMsg: dinner created
+    active: true
+
+  test2:
+    envName: test2
+    appUrl: https://demo.aspnetawesome.com/
+    name: Janusz Kowalski
+    day: 20
+    month: May
+    year: 2022
+    expectedMsg: dinner created
+    active: false

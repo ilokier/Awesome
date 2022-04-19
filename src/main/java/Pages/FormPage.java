@@ -1,0 +1,158 @@
+package Pages;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class FormPage extends BasePage {
+    private static final Logger log = LoggerFactory.getLogger("FormPage.class");
+    private final List<String> allMonths = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+    @FindBy(id = "createDinnerName-awed")
+    private WebElement nameInput;
+    //calendar
+    @FindBy(css = ".awe-icon-datepicker")
+    private WebElement calendarIcon;
+    @FindBy(css = "#createDinnerDatecm-awed .o-cptn")
+    private WebElement actualMonth;
+    @FindBy(css = "#createDinnerDatecy-awed .o-cptn")
+    private WebElement actualYear;
+    @FindBy(css = ".left")
+    private WebElement arrowLeft;
+    @FindBy(css = "button .right")
+    private WebElement arrowRight;
+    @FindBy(css = "td:not(.o-outm) div")
+    private List<WebElement> allDays;
+
+    @FindBy(css = ".o-mhd")
+    private WebElement monthButton;
+    @FindBy(css = "o-yhd")
+    private WebElement yearButton;
+    @FindBy(css = "#createDinnerDatecm-dropmenu .o-ditm")
+    private List<WebElement> monthList;
+    @FindBy(css = "#createDinnerDatecy-dropmenu .o-ditm")
+    private List<WebElement> yearList;
+
+    @FindBy(css = ".awe-lookup-field .awe-lkpbtn")
+    private WebElement chefButton;
+    @FindBy(css = "#createDinnerChef-awepw .awe-li")
+    private List<WebElement> chefList;
+    @FindBy(css = "[data-i=\"createDinnerChef-awepw\"] .awe-okbtn")
+    private WebElement okChefButton;
+    @FindBy(css = ".awe-caption")
+    private WebElement chefInput;
+    @FindBy(css = ".awe-multilookup-field .awe-lkpbtn")
+    private WebElement mealsButton;
+    @FindBy(css = "#createDinnerMeals-awepw .awe-li button")
+    private List<WebElement> mealsList;
+    @FindBy(css = ".awe-sel li")
+    private List<WebElement> selectedMeals;
+    @FindBy(css = "[data-i=\"createDinnerMeals-awepw\"] .awe-okbtn")
+    private WebElement okMealButton;
+    @FindBy(id = "createDinnerBonusMealId-awed")
+    private WebElement bonusMealButton;
+    @FindBy(css = "#createDinnerBonusMealId-dropmenu li")
+    private List<WebElement> bonusMealList;
+    @FindBy(css = ".awe-okbtn")
+    private WebElement okButton;
+
+    Alert alert;
+
+    public FormPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public String getActualMonth() {
+        return actualMonth.getText();
+    }
+
+    public int getActualYear() {
+        return Integer.parseInt(actualYear.getText());
+    }
+
+    public void fillForm() {
+        sendKeysToElement(nameInput, System.getProperty("name"));
+        selectdate(System.getProperty("day"), System.getProperty("month"), Integer.parseInt(System.getProperty("year")));
+        chooseRandomChef();
+        chooseRandomMeals();
+        chooseRandomBonusMeal();
+        log.info("Random chef is: " + chefInput.getText());
+        clickOnElement(okButton);
+        log.info("Form send");
+    }
+
+    public void selectdate(String day, String month, int year) {
+        clickOnElement(calendarIcon);
+        if (year < getActualYear()) {
+            goPrev(month, year);
+        } else if (year > getActualYear()) {
+            goNext(month, year);
+        } else if (getNumberOfMonth(month) < getNumberOfMonth(getActualMonth())) {
+            goPrev(month, year);
+        } else if (getNumberOfMonth(month) > getNumberOfMonth(getActualMonth())) {
+            goNext(month, year);
+        }
+        selectDay(day);
+    }
+
+    private void goNext(String expectedMonth, int expectedYear) {
+        while (!expectedMonth.equals(getActualMonth()) || expectedYear != getActualYear()) {
+            clickOnElement(arrowRight);
+        }
+    }
+
+    private void goPrev(String month, int year) {
+        while (!month.equals(getActualMonth()) || year != getActualYear()) {
+            clickOnElement(arrowLeft);
+        }
+    }
+
+    private void selectDay(String dayToSelect) {
+        for (WebElement day : allDays) {
+            if (day.getText().equals(dayToSelect)) {
+                day.click();
+                break;
+            }
+        }
+    }
+
+    private int getNumberOfMonth(String monthName) {
+        return allMonths.indexOf(monthName);
+    }
+
+    public void chooseRandomChef() {
+        clickOnElement(chefButton);
+        chooseRandomListElement(chefList);
+        clickOnElement(okChefButton);
+    }
+
+    public void chooseRandomMeals() {
+        clickOnElement(mealsButton);
+        chooseRandomListElement(mealsList);
+        chooseRandomListElement(mealsList);
+        chooseRandomListElement(mealsList);
+        for (WebElement selectedMeal : selectedMeals) {
+            log.info("Random meal is: " + selectedMeal.getText());
+        }
+        clickOnElement(okMealButton);
+    }
+
+    public void chooseRandomBonusMeal() {
+        clickOnElement(bonusMealButton);
+        chooseRandomListElement(bonusMealList);
+        log.info("Random bonus meal is: " + bonusMealButton.getText());
+
+    }
+
+
+}
+
+
+
+
+
