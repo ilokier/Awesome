@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -23,17 +24,19 @@ public class BasePage {
     public BasePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         actions = new Actions(driver);
     }
 
     public void clickOnElement(WebElement element) {
         waitToBeVisible(element);
+        highLightenerMethod(element);
         element.click();
     }
 
     public void sendKeysToElement(WebElement element, String text) {
         waitToBeVisible(element);
+        highLightenerMethod(element);
         element.clear();
         element.sendKeys(text);
     }
@@ -74,5 +77,13 @@ public class BasePage {
         wait.until(ExpectedConditions.alertIsPresent());
     }
 
-
+    public void highLightenerMethod(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute('style', 'background: lightgreen; border: 5px solid green;')", element);
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

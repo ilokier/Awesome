@@ -49,7 +49,7 @@ public class FormPage extends BasePage {
     private WebElement chefInput;
     @FindBy(css = ".awe-multilookup-field .awe-lkpbtn")
     private WebElement mealsButton;
-    @FindBy(css = "#createDinnerMeals-awepw .awe-li button")
+    @FindBy(css = ".awe-srlcont .awe-li button")
     private List<WebElement> mealsList;
     @FindBy(css = ".awe-sel li")
     private List<WebElement> selectedMeals;
@@ -74,7 +74,7 @@ public class FormPage extends BasePage {
         return Integer.parseInt(actualYear.getText());
     }
 
-    public void fillForm() {
+    public FormPage fillForm() {
         sendKeysToElement(nameInput, System.getProperty("name"));
         selectdate(System.getProperty("day"), System.getProperty("month"), Integer.parseInt(System.getProperty("year")));
         chooseRandomChef();
@@ -82,6 +82,7 @@ public class FormPage extends BasePage {
         chooseRandomBonusMeal();
         clickOnElement(confirmFormButton);
         log.info("Form send");
+        return this;
     }
 
     public void selectdate(String day, String month, int year) {

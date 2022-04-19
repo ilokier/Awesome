@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.util.List;
 
 public class HomePage extends BasePage {
@@ -27,22 +26,25 @@ public class HomePage extends BasePage {
     }
 
     public HomePage goToForm() {
-       sendKeysToElement(searchInput, "pop");
-       goToElement(menuOptions);
-       clickOnElement(createButton);
-       return this;
+        sendKeysToElement(searchInput, "pop");
+        goToElement(menuOptions);
+        clickOnElement(createButton);
+        return this;
     }
-    public void goToElement(List<WebElement>elements) {
+
+    public void goToElement(List<WebElement> elements) {
         for (WebElement element : elements) {
-            if (element.getText().equals("PopupForm")){
-                log.info("Found: " +element.getText());
+            if (element.getText().equals("PopupForm")) {
+                log.info("Found: " + element.getText());
                 element.click();
-              break;
-            }else
-            actions.sendKeys(Keys.TAB);
+                break;
+            } else
+                actions.sendKeys(Keys.TAB);
         }
 
     }
+
+
 }
 
 
