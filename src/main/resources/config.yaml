@@ -9,8 +9,8 @@ environment:
     appUrl: https://demo.aspnetawesome.com/
     name: Janek Malinowski
     day: 30
-    month: April
-    year: 2023
+    month: May
+    year: 2022
     expectedMsg: dinner created
     active: true
 

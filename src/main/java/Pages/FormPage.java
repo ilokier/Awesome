@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -49,6 +50,8 @@ public class FormPage extends BasePage {
     private WebElement chefInput;
     @FindBy(css = ".awe-multilookup-field .awe-lkpbtn")
     private WebElement mealsButton;
+    @FindBy(css = "#createDinnerMeals-awepw .awe-srlcont .awe-li")//values
+    private List<WebElement> mealListValues;
     @FindBy(css = ".awe-srlcont .awe-li button")
     private List<WebElement> mealsList;
     @FindBy(css = ".awe-sel li")
@@ -77,13 +80,14 @@ public class FormPage extends BasePage {
     public FormPage fillForm() {
         sendKeysToElement(nameInput, System.getProperty("name"));
         selectdate(System.getProperty("day"), System.getProperty("month"), Integer.parseInt(System.getProperty("year")));
-        chooseRandomChef();
-        chooseRandomMeals();
-        chooseRandomBonusMeal();
+        choseRandomChefPlus();
+        choseThreeRandomMeals();
+        choseRandomBonusMealPlus();
         clickOnElement(confirmFormButton);
         log.info("Form send");
         return this;
     }
+
 
     public void selectdate(String day, String month, int year) {
         clickOnElement(calendarIcon);
@@ -124,32 +128,6 @@ public class FormPage extends BasePage {
         return allMonths.indexOf(monthName);
     }
 
-    public void chooseRandomChef() {
-        clickOnElement(chefButton);
-        chooseRandomListElement(chefList);
-        clickOnElement(okChefButton);
-        waitToBeNotVisible(emptyChefInput);
-        log.info("Random chef is: " + chefInput.getText());
-    }
-
-    public void chooseRandomMeals() {
-        clickOnElement(mealsButton);
-        chooseRandomListElement(mealsList);
-        chooseRandomListElement(mealsList);
-        chooseRandomListElement(mealsList);
-        for (WebElement selectedMeal : selectedMeals) {
-            log.info("Random meal is: " + selectedMeal.getText());
-        }
-        clickOnElement(okMealButton);
-    }
-
-    public void chooseRandomBonusMeal() {
-        clickOnElement(bonusMealButton);
-        chooseRandomListElement(bonusMealList);
-        log.info("Random bonus meal is: " + bonusMealButton.getText());
-
-    }
-
     public String getValidationMessage() {
         waitForAlert();
         String alertMessage = driver.switchTo().alert().getText();
@@ -162,7 +140,65 @@ public class FormPage extends BasePage {
         driver.switchTo().alert().accept();
 
     }
+
+    public void choseRandomChefPlus() {
+        clickOnElement(chefButton);
+        WebElement element = getRandomListEl(chefList);
+        if (!element.getText().equalsIgnoreCase("more")) {
+            scrollToElement(element);
+            highLightenerMethod(element);
+            clickOnElement(element);
+
+        } else {
+            scrollToElement(element);
+            highLightenerMethod(element);
+            clickOnElement(element);
+            choseRandomMealPlus();
+        }
+        clickOnElement(okChefButton);
+        waitToBeNotVisible(emptyChefInput);
+        log.info("Random chef is: " + chefInput.getText());
+    }
+
+    public void choseThreeRandomMeals() {
+        clickOnElement(mealsButton);
+        choseRandomMealPlus();
+        choseRandomMealPlus();
+        choseRandomMealPlus();
+        for (WebElement selectedMeal : selectedMeals) {
+            log.info("Random meal is: " + selectedMeal.getText());
+        }
+        clickOnElement(okMealButton);
+    }
+
+    public void choseRandomMealPlus() {
+        WebElement element = getRandomListEl(mealListValues);
+        if (!element.getText().equalsIgnoreCase("more")) {
+            scrollToElement(element);
+            highLightenerMethod(element);
+            clickOnElement(element.findElement(By.cssSelector("button")));
+        } else {
+            scrollToElement(element);
+            highLightenerMethod(element);
+            clickOnElement(element);
+            choseRandomMealPlus();
+        }
+
+    }
+
+    public void choseRandomBonusMealPlus() {
+        clickOnElement(bonusMealButton);
+        WebElement element = getRandomListEl(bonusMealList);
+        scrollToElement(element);
+        highLightenerMethod(element);
+        clickOnElement(element);
+        log.info("Random bonus meal is: " + bonusMealButton.getText());
+
+    }
+
 }
+
+
 
 
 

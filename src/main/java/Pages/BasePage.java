@@ -41,24 +41,16 @@ public class BasePage {
         element.sendKeys(text);
     }
 
-    public void chooseRandomListElement(List<WebElement> elements) {
+    public WebElement getRandomListEl(List<WebElement> elements) {
         waitToListVisible(elements);
-        WebElement element = elements.get(new Random().nextInt(elements.size()));
-        log.info("List size: " + elements.size());
-        if (!element.getText().equalsIgnoreCase("more")) {
-            scrollToElement(element);
-        } else {
-            element.click();
-            chooseRandomListElement(elements);
-        }
-
+        return elements.get(new Random().nextInt(elements.size()));
     }
+
 
     public void scrollToElement(WebElement element) {
         actions.moveToElement(element);
         actions.perform();
         waitToBeVisible(element);
-        clickOnElement(element);
     }
 
     public void waitToBeVisible(WebElement element) {
