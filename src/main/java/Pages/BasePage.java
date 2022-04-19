@@ -59,6 +59,10 @@ public class BasePage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void waitToBeNotVisible(WebElement element) {
+        wait.until(ExpectedConditions.invisibilityOf(element));
+    }
+
     public void waitToListVisible(List<WebElement> elements) {
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }

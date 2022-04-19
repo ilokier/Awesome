@@ -1,6 +1,5 @@
 package Pages;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -44,6 +43,8 @@ public class FormPage extends BasePage {
     private List<WebElement> chefList;
     @FindBy(css = "[data-i=\"createDinnerChef-awepw\"] .awe-okbtn")
     private WebElement okChefButton;
+    @FindBy(css = ".awe-caption .awe-empty")
+    private WebElement emptyChefInput;
     @FindBy(css = ".awe-caption")
     private WebElement chefInput;
     @FindBy(css = ".awe-multilookup-field .awe-lkpbtn")
@@ -59,9 +60,7 @@ public class FormPage extends BasePage {
     @FindBy(css = "#createDinnerBonusMealId-dropmenu li")
     private List<WebElement> bonusMealList;
     @FindBy(css = ".awe-okbtn")
-    private WebElement okButton;
-
-    Alert alert;
+    private WebElement confirmFormButton;
 
     public FormPage(WebDriver driver) {
         super(driver);
@@ -81,8 +80,7 @@ public class FormPage extends BasePage {
         chooseRandomChef();
         chooseRandomMeals();
         chooseRandomBonusMeal();
-        log.info("Random chef is: " + chefInput.getText());
-        clickOnElement(okButton);
+        clickOnElement(confirmFormButton);
         log.info("Form send");
     }
 
@@ -129,6 +127,8 @@ public class FormPage extends BasePage {
         clickOnElement(chefButton);
         chooseRandomListElement(chefList);
         clickOnElement(okChefButton);
+        waitToBeNotVisible(emptyChefInput);
+        log.info("Random chef is: " + chefInput.getText());
     }
 
     public void chooseRandomMeals() {
