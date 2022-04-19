@@ -43,10 +43,7 @@ public class BasePage {
         WebElement element = elements.get(new Random().nextInt(elements.size()));
         log.info("List size: " + elements.size());
         if (!element.getText().equalsIgnoreCase("more")) {
-            actions.moveToElement(element);
-            actions.perform();
-            waitToBeVisible(element);
-            clickOnElement(element);
+            scrollToElement(element);
         } else {
             element.click();
             chooseRandomListElement(elements);
@@ -54,6 +51,12 @@ public class BasePage {
 
     }
 
+    public void scrollToElement(WebElement element) {
+        actions.moveToElement(element);
+        actions.perform();
+        waitToBeVisible(element);
+        clickOnElement(element);
+    }
 
     public void waitToBeVisible(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
