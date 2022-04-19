@@ -1,5 +1,6 @@
 import Configuration.AppProperties;
 import Configuration.DriverHandle;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -20,9 +21,9 @@ public class BaseTest {
         driver.get(System.getProperty("appUrl"));
     }
 
-//    @AfterAll
-//    static void quit() {
-//        driver.quit();
-//        log.debug("<<<<<<driver closed properly>>>>>");
-//    }
+    @AfterAll
+    static void quit() {
+        driver.quit();
+        log.debug("<<<<<<driver closed properly>>>>>");
+    }
 }
