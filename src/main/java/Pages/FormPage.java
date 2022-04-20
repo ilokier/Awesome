@@ -89,7 +89,7 @@ public class FormPage extends BasePage {
     }
 
 
-    public void selectdate(String day, String month, int year) {
+    private void selectdate(String day, String month, int year) {
         clickOnElement(calendarIcon);
         if (year < getActualYear()) {
             goPrev(month, year);
@@ -141,18 +141,14 @@ public class FormPage extends BasePage {
 
     }
 
-    public void choseRandomChefPlus() {
+    private void choseRandomChefPlus() {
         clickOnElement(chefButton);
         WebElement element = getRandomListEl(chefList);
         if (!element.getText().equalsIgnoreCase("more")) {
-            scrollToElement(element);
-            highLightenerMethod(element);
-            clickOnElement(element);
+            scrollToElementWithClick(element);
 
         } else {
-            scrollToElement(element);
-            highLightenerMethod(element);
-            clickOnElement(element);
+            scrollToElementWithClick(element);
             choseRandomMealPlus();
         }
         clickOnElement(okChefButton);
@@ -160,7 +156,7 @@ public class FormPage extends BasePage {
         log.info("Random chef is: " + chefInput.getText());
     }
 
-    public void choseThreeRandomMeals() {
+    private void choseThreeRandomMeals() {
         clickOnElement(mealsButton);
         choseRandomMealPlus();
         choseRandomMealPlus();
@@ -171,27 +167,23 @@ public class FormPage extends BasePage {
         clickOnElement(okMealButton);
     }
 
-    public void choseRandomMealPlus() {
+    private void choseRandomMealPlus() {
         WebElement element = getRandomListEl(mealListValues);
         if (!element.getText().equalsIgnoreCase("more")) {
             scrollToElement(element);
             highLightenerMethod(element);
             clickOnElement(element.findElement(By.cssSelector("button")));
         } else {
-            scrollToElement(element);
-            highLightenerMethod(element);
-            clickOnElement(element);
+            scrollToElementWithClick(element);
             choseRandomMealPlus();
         }
 
     }
 
-    public void choseRandomBonusMealPlus() {
+    private void choseRandomBonusMealPlus() {
         clickOnElement(bonusMealButton);
         WebElement element = getRandomListEl(bonusMealList);
-        scrollToElement(element);
-        highLightenerMethod(element);
-        clickOnElement(element);
+        scrollToElementWithClick(element);
         log.info("Random bonus meal is: " + bonusMealButton.getText());
 
     }

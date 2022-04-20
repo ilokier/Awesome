@@ -16,9 +16,9 @@ import java.util.Random;
 
 public class BasePage {
     private static Logger log = LoggerFactory.getLogger("BasePage.class");
-    public WebDriver driver;
-    public WebDriverWait wait;
-    public Actions actions;
+    protected WebDriver driver;
+    protected WebDriverWait wait;
+    protected Actions actions;
 
 
     public BasePage(WebDriver driver) {
@@ -46,6 +46,14 @@ public class BasePage {
         return elements.get(new Random().nextInt(elements.size()));
     }
 
+
+    public void scrollToElementWithClick(WebElement element) {
+        actions.moveToElement(element);
+        actions.perform();
+        waitToBeVisible(element);
+        highLightenerMethod(element);
+        clickOnElement(element);
+    }
 
     public void scrollToElement(WebElement element) {
         actions.moveToElement(element);
